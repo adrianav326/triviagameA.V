@@ -65,13 +65,14 @@ var game = {
 
         panel.html("<h2>Out of Time!</h2>");
         panel.append("<h3>The Correct Answer was: " + question[this.currentQuestion].correctAnswer);
-        panel.append("<img src=''" + questions[this.currentQuestion].image);
+        panel.append("<img src='" + questions[this.currentQuestion].image);
 
         if (game.currentQuestion === questions.length -1)
         {
             setTimeout(game.results, 3 * 1000);
         }
-        else{
+        else
+        {
             setTimeout(game.nextQuestion, 3 * 1000);
         }
         
@@ -89,6 +90,70 @@ var game = {
         panel.append("<h3>Incorrect Answers: " + game.incorrect + "</h3>");
         panel.append("<h3>Unanswered: " + (question.length -(game.correct + game.incorrect)) + "</h3>");
         panel.append("<br><button id='start-over'>Start Over?</button>");
+    },
+
+    clicked: function(e) {
+
+        clearInterval(timer);
+
+        if ($(e.target).attr("data-name") === questions[this.currentQuestion].correctAnswer)
+        {
+            this.answeredCorrectly(); 
+        }
+        else
+        {
+            this.answeredIncorrectly();
+        }
+
+    },
+
+    answeredIncorrectly: function() {
+
+        game.incorrect++;
+
+        clearInterval(timer);
+
+        panel.html("<h2>You're wrong!</h2>");
+        panel.append("<h3>The Correct Answer was: " + questions [game.currentQuestion].correctAnswer + "</h3>");
+        panel.append("<img src='" + questions[game.currentQuestion].image + "'/>" );
+
+        if (game.currentQuestion === questions.length -1)
+        {
+            setTimeout(game.results, 3 * 1000);
+        }
+        else
+        {
+            setTimeout(game.nextQuestion, 3 * 1000);
+        }
+
+    },
+
+    answeredCorrectly: function() {
+
+        game.correct++;
+
+        clearInterval(timer);
+
+        panel.html("<h2>You're right!</h2>");
+        panel.append("<img src='" + questions[game.currentQuestion].image + "'/>" );
+
+        if (game.currentQuestion === questions.length -1)
+        {
+            setTimeout(game.results, 3 * 1000);
+        }
+        else
+        {
+            setTimeout(game.nextQuestion, 3 * 1000);
+        }
+
+    },
+
+    reset: function() {
+        this.currentQuestion = 0;
+        this.counter = countStartNumber;
+        this.correct = 0;
+        this.incorrect = 0;
+        this.loadQuestion();
     },
 
 }
