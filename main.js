@@ -129,10 +129,9 @@ var game = {
     },
 
     answeredCorrectly: function() {
+        clearInterval(timer);
 
         game.correct++;
-
-        clearInterval(timer);
 
         panel.html("<h2>You're right!</h2>");
         panel.append("<img src='" + questions[game.currentQuestion].image + "'/>" );
@@ -156,4 +155,19 @@ var game = {
         this.loadQuestion();
     },
 
-}
+},
+
+//CLICK EVENTS
+// ------------------------------------------------------------------------
+$(document).on("click", "#start-over", function(){
+    game.reset();
+});
+
+$(doucment).on("click", ".answer-button", function(e) {
+    game.clicked(e);
+});
+
+$(doucment).on("click", ".answer-button", function() {
+    $("#sub-wrapper").prepend("<h2>Time Remaining: <span id='counter-number'>10</span> Seconds</h2>");
+    game.loadQuestion();
+});
